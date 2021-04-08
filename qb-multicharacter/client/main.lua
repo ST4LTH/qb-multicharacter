@@ -34,7 +34,6 @@ local choosingCharacter = false
 local cam = nil
 
 function openCharMenu(bool)
-    print(bool)
     SetNuiFocus(bool, bool)
     SendNUIMessage({
         action = "ui",
@@ -79,7 +78,6 @@ AddEventHandler('qb-multicharacter:client:chooseChar', function()
     LoadInterior(interior)
     while not IsInteriorReady(interior) do
         Citizen.Wait(1000)
-        print("[Loading Selector Interior, Please Wait!]")
     end
     FreezeEntityPosition(PlayerPedId(), true)
     SetEntityCoords(PlayerPedId(), Config.HiddenCoords.x, Config.HiddenCoords.y, Config.HiddenCoords.z)
