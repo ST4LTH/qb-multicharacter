@@ -101,12 +101,12 @@ QBCore.Functions.CreateCallback("test:yeet", function(source, cb)
     end)
 end)
 
-QBCore.Commands.Add("char", "Give item to a player", {{name="id", help="Player ID"},{name="item", help="Name of the item (not a label)"}, {name="amount", help="Amount of items"}}, false, function(source, args)
+QBCore.Commands.Add("logout", "Logout of Character", {{name="id", help="Player ID"},{name="item", help="Name of the item (not a label)"}, {name="amount", help="Amount of items"}}, false, function(source, args)
     QBCore.Player.Logout(source)
     TriggerClientEvent('qb-multicharacter:client:chooseChar', source)
 end, "admin")
 
-QBCore.Commands.Add("closeNUI", "Give item to a player", {{name="id", help="Player ID"},{name="item", help="Name of the item (not a label)"}, {name="amount", help="Amount of items"}}, false, function(source, args)
+QBCore.Commands.Add("closeNUI", "Close Multi NUI", {{name="id", help="Player ID"},{name="item", help="Name of the item (not a label)"}, {name="amount", help="Amount of items"}}, false, function(source, args)
     TriggerClientEvent('qb-multicharacter:client:closeNUI', source)
 end)
 
