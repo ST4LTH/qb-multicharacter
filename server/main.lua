@@ -19,7 +19,6 @@ AddEventHandler('qb-multicharacter:server:loadUserData', function(cData)
         --TriggerClientEvent('QBCore:Client:OnPlayerLoaded', src)
         
         TriggerClientEvent('apartments:client:setupSpawnUI', src, cData)
-        TriggerEvent("qb-log:server:sendLog", cData.citizenid, "characterloaded", {})
         TriggerEvent("qb-log:server:CreateLog", "joinleave", "Loaded", "green", "**".. GetPlayerName(src) .. "** ("..cData.citizenid.." | "..src..") loaded..")
 	end
 end)
