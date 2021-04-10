@@ -10,70 +10,33 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="includes/jquery-1.4.2.min.js"></script>
-    <title>Qbus Multicharacter</title>
+    <title>QB-Multicharacter</title>
 </head>
     <body>
-        <div class="container">
-            <div class="bars">
-                <div class="topbar">
-                    <!-- <p><span id="welcome-titel">QBUS ROLEPLAY</span></p> -->
-                    QBUS ROLEPLAY
-                </div>
-<!-- 
-                <div class="bottombar">
-                </div> -->
-            </div>   
-                                     
+        <div class="container">                     
             <div class="main-screen">
                 <div class="welcomescreen">
                     <div class="loading-rondje">
                         <div class="lds-ring"><div></div><div></div><div></div><div></div></div>                        
-                        <p id="loading-text">Data loading</p>
+                        <p id="loading-text">Loading Characters</p>
                     </div>
-                    <!-- <div class="start-btn continue-btn"><p>Spelen</p></div>
-                    <div class="start-btn disconnect-btn"><p>Verlaten</p></div> -->
                 </div>
-
-                <!-- <div class="server-log"> -->
-                    <!-- <div class="server-log-header"><p>QBus Changelog</p></div> -->
-
-                    <!-- <div class="log">
-                        <span id="log-date">&#8226; 31-10-2019</span>
-                        <ul id="log-changes">
-                            <li><b>BUGFIXES</b></li>
-                            <li> &#8226; </li>
-                            <li> &nbsp; </li>
-                            <li><b>CHANGELOG</b></li>
-                            <li> &nbsp; </li>
-                            <li><b>NEW</b></li>
-                        </ul>
-                    </div> -->
-                    <!-- <div class="log">
-                        <span id="log-date">&#8226; 22-12-2019</span>
-                        <ul id="log-changes">
-                            <li><b>BUGFIXES</b></li>
-                            <li> &#8226; Loading decoration</li>
-                        </ul>
-                    </div> -->
-                <!-- </div> -->
-
- 
                 <div class="characters-list">
                     <div class="character-list-header"><p>My Characters</p></div>
                     <div class="character" id="char-1" data-cid="">
-                        <span id="slot-name">Empty charcater slot<span id="cid"></span></span>
+                        <span id="slot-name">Create New Character<span id="cid"></span></span>
                     </div>
                     <div class="character" id="char-2" data-cid="">
-                        <span id="slot-name">Empty charcater slot<span id="cid"></span></span>
+                        <span id="slot-name">Create New Character<span id="cid"></span></span>
                     </div>
                     <div class="character" id="char-3" data-cid="">
-                        <span id="slot-name">Empty charcater slot<span id="cid"></span></span>
+                        <span id="slot-name">Create New Character<span id="cid"></span></span>
                     </div>
                     <div class="character" id="char-4" data-cid="">
-                        <span id="slot-name">Empty charcater slot<span id="cid"></span></span>
+                        <span id="slot-name">Create New Character<span id="cid"></span></span>
                     </div>
                     <div class="character" id="char-5" data-cid="">
-                        <span id="slot-name">Empty charcater slot<span id="cid"></span></span>
+                        <span id="slot-name">Create New Character<span id="cid"></span></span>
                     </div>
                     <div class="character-btn" id="play"><p id="play-text">Select a character</p></div>
                     <div class="character-btn" id="delete"><p id="delete-text">Select a character</p></div>
@@ -97,11 +60,11 @@
                         <input type="text" id="nationality" placeholder="Nationality" class="char-reg-input">
                         <input type="date" id="birthdate" placeholder="Birth Date" min="1900-01-01" max="2999-12-31" class="char-reg-input">
                         <select id="gender" name="gender">
-                            <option value="man" selected>Man</option>
-                            <option value="vrouw">Woman</option>
+                            <option value="Male" selected>Man</option>
+                            <option value="Female">Woman</option>
                         </select>
                     </div>
-                    <div class="character-reg-btn" id="create"><p id="create-text">Confirm data </p></div>
+                    <div class="character-reg-btn" id="create"><p id="create-text">Confirm</p></div>
                 </div>
 
                 <div class="character-delete">
@@ -110,9 +73,9 @@
                         <i class="material-icons" id="close-del">close</i>
                     </div>
 
-                    <p>Are you sure you want to delete this character?</p>
+                    <p>Are You Sure You Want To Delete Your Character?</p>
                     <br>
-                    <p id="yeet">All your character history wil be deleted</p>
+                    <p id="yeet">Warning: This Is Permanent</p>
 
                     <div class="character-acceptdel-btn" id="accept-delete"><p id="accept-text">Confirm</p></div>
                     <div class="character-canceldel-btn" id="cancel-delete"><p id="cancel-text">Return</p></div>

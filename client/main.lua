@@ -184,6 +184,7 @@ end)
 
 RegisterNUICallback('removeCharacter', function(data)
     TriggerServerEvent('qb-multicharacter:server:deleteCharacter', data.citizenid)
+    TriggerEvent('qb-multicharacter:client:chooseChar')
 end)
 
 function skyCam(bool)
