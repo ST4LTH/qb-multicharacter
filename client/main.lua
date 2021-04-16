@@ -188,7 +188,7 @@ RegisterNUICallback('removeCharacter', function(data)
 end)
 
 function skyCam(bool)
-    SetRainFxIntensity(0.0)
+    SetRainLevel(0.0)
     TriggerEvent('qb-weathersync:client:DisableSync')
     SetWeatherTypePersist('EXTRASUNNY')
     SetWeatherTypeNow('EXTRASUNNY')
