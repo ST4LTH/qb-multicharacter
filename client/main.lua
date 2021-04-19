@@ -83,7 +83,6 @@ AddEventHandler('qb-multicharacter:client:chooseChar', function()
     SetEntityCoords(PlayerPedId(), Config.HiddenCoords.x, Config.HiddenCoords.y, Config.HiddenCoords.z)
     Citizen.Wait(1500)
     ShutdownLoadingScreenNui()
-    NetworkSetTalkerProximity(0.0)
     openCharMenu(true)
 end)
 
