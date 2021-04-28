@@ -19,7 +19,6 @@ Multi Character Feature for QB-Core Framework :people_holding_hands:
 ## Installation
 ### Manual
 - Download the script and put it in the `[qb]` directory.
-- Import `qb-multicharacter.sql` in your database
 - Add the following code to your server.cfg/resouces.cfg
 ```
 ensure qb-core
