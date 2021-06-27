@@ -4,8 +4,8 @@ local charPed = nil
 
 Citizen.CreateThread(function() 
     while QBCore == nil do
-    	TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-    	Citizen.Wait(200)
+        TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)    
+        Citizen.Wait(200)
     end
 end)
 
@@ -20,9 +20,9 @@ Citizen.CreateThread(function()
 end)
 
 Config = {
-    PedCoords = {x = -813.97, y = 176.22, z = 76.74, h = -7.5, r = 1.0}, 
-    HiddenCoords = {x = -812.23, y = 182.54, z = 76.74, h = 156.5, r = 1.0}, 
-    CamCoords = {x = -814.02, y = 179.56, z = 76.74, h = 198.5, r = 1.0}, 
+    PedCoords = vector4(-813.97, 176.22, 76.74, -7.5), 
+    HiddenCoords = vector4(-812.23, 182.54, 76.74, 156.5), 
+    CamCoords = vector4(-814.02, 179.56, 76.74, 198.5), 
 }
 
 --- CODE
@@ -101,7 +101,7 @@ RegisterNUICallback('cDataPed', function(data)
                     while not HasModelLoaded(model) do
                         Citizen.Wait(0)
                     end
-                    charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.h, false, true)
+                    charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.w, false, true)
                     SetPedComponentVariation(charPed, 0, 0, 0, 2)
                     FreezeEntityPosition(charPed, false)
                     SetEntityInvincible(charPed, true)
@@ -121,7 +121,7 @@ RegisterNUICallback('cDataPed', function(data)
                     while not HasModelLoaded(model) do
                         Citizen.Wait(0)
                     end
-                    charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.h, false, true)
+                    charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.w, false, true)
                     SetPedComponentVariation(charPed, 0, 0, 0, 2)
                     FreezeEntityPosition(charPed, false)
                     SetEntityInvincible(charPed, true)
@@ -141,7 +141,7 @@ RegisterNUICallback('cDataPed', function(data)
             while not HasModelLoaded(model) do
                 Citizen.Wait(0)
             end
-            charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.h, false, true)
+            charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.w, false, true)
             SetPedComponentVariation(charPed, 0, 0, 0, 2)
             FreezeEntityPosition(charPed, false)
             SetEntityInvincible(charPed, true)
