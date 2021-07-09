@@ -68,9 +68,9 @@ AddEventHandler('qb-multicharacter:server:deleteCharacter', function(citizenid)
 end)
 
 QBCore.Functions.CreateCallback("qb-multicharacter:server:GetUserCharacters", function(source, cb)
-    local steamId = GetPlayerIdentifier(source, 0)
+    local license = QBCore.Functions.GetIdentifier(source, 'license')
 
-    exports['ghmattimysql']:execute('SELECT * FROM players WHERE steam = @steam', {['@steam'] = steamId}, function(result)
+    exports['ghmattimysql']:execute('SELECT * FROM players WHERE license=@license', {['@license'] = license}, function(result)
         cb(result)
     end)
 end)
@@ -82,10 +82,10 @@ QBCore.Functions.CreateCallback("qb-multicharacter:server:GetServerLogs", functi
 end)
 
 QBCore.Functions.CreateCallback("test:yeet", function(source, cb)
-    local steamId = GetPlayerIdentifiers(source)[1]
+    local license = QBCore.Functions.GetIdentifier(source, 'license')
     local plyChars = {}
     
-    exports['ghmattimysql']:execute('SELECT * FROM players WHERE steam = @steam', {['@steam'] = steamId}, function(result)
+    exports['ghmattimysql']:execute('SELECT * FROM players WHERE license = @license', {['@license'] = license}, function(result)
         for i = 1, (#result), 1 do
             result[i].charinfo = json.decode(result[i].charinfo)
             result[i].money = json.decode(result[i].money)
