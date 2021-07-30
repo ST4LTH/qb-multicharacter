@@ -109,43 +109,41 @@ end)
 QBCore.Functions.CreateCallback("qb-multicharacter:server:getSkin", function(source, cb, cid)
     local src = source
 
-    exports.ghmattimysql:execute('SELECT * FROM playerskins WHERE citizenid=@citizenid AND active=@active', {['@citizenid'] = cid, ['@active'] = 1}, function(result)
-        if result[1] ~= nil then
-            cb(result[1].model, result[1].skin)
-        else
-            cb(nil)
-        end
-    end)
+    local result = exports.ghmattimysql:executeSync('SELECT * FROM playerskins WHERE citizenid=@citizenid AND active=@active', {['@citizenid'] = cid, ['@active'] = 1})
+    if result[1] ~= nil then
+        cb(result[1].model, result[1].skin)
+    else
+        cb(nil)
+    end
 end)
 
 function loadHouseData()
     local HouseGarages = {}
     local Houses = {}
-	exports.ghmattimysql:execute('SELECT * FROM houselocations', function(result)
-		if result[1] ~= nil then
-			for k, v in pairs(result) do
-				local owned = false
-				if tonumber(v.owned) == 1 then
-					owned = true
-				end
-				local garage = v.garage ~= nil and json.decode(v.garage) or {}
-				Houses[v.name] = {
-					coords = json.decode(v.coords),
-					owned = v.owned,
-					price = v.price,
-					locked = true,
-					adress = v.label, 
-					tier = v.tier,
-					garage = garage,
-					decorations = {},
-				}
-				HouseGarages[v.name] = {
-					label = v.label,
-					takeVehicle = garage,
-				}
-			end
-		end
-		TriggerClientEvent("qb-garages:client:houseGarageConfig", -1, HouseGarages)
-		TriggerClientEvent("qb-houses:client:setHouseConfig", -1, Houses)
-	end)
+    local result = exports.ghmattimysql:executeSync('SELECT * FROM houselocations')
+    if result[1] ~= nil then
+        for k, v in pairs(result) do
+            local owned = false
+            if tonumber(v.owned) == 1 then
+                owned = true
+            end
+            local garage = v.garage ~= nil and json.decode(v.garage) or {}
+            Houses[v.name] = {
+                coords = json.decode(v.coords),
+                owned = v.owned,
+                price = v.price,
+                locked = true,
+                adress = v.label, 
+                tier = v.tier,
+                garage = garage,
+                decorations = {},
+            }
+            HouseGarages[v.name] = {
+                label = v.label,
+                takeVehicle = garage,
+            }
+        end
+    end
+    TriggerClientEvent("qb-garages:client:houseGarageConfig", -1, HouseGarages)
+    TriggerClientEvent("qb-houses:client:setHouseConfig", -1, Houses)
 end
