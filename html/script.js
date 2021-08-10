@@ -251,7 +251,13 @@ $(document).on('click', '#accept-delete', function(e){
     }));
     $('.character-delete').fadeOut(150);
     $('.characters-block').css("filter", "none");
-    refreshCharacters()
+    refreshCharacters();
+});
+
+$(document).on('click', '#cancel-delete', function(e){
+    e.preventDefault();
+    $('.characters-block').css("filter", "none");
+    $('.character-delete').fadeOut(150);
 });
 
 function refreshCharacters() {
