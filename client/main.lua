@@ -166,7 +166,6 @@ RegisterNUICallback('createNewCharacter', function(data)
     end
 
     TriggerServerEvent('qb-multicharacter:server:createCharacter', cData)
-    TriggerServerEvent('qb-multicharacter:server:GiveStarterItems')
     Citizen.Wait(500)
 end)
 
