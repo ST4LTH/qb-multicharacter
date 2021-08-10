@@ -144,7 +144,7 @@ RegisterNUICallback('cDataPed', function(data)
 end)
 
 RegisterNUICallback('setupCharacters', function()
-    QBCore.Functions.TriggerCallback("test:yeet", function(result)
+    QBCore.Functions.TriggerCallback("qb-multicharacter:server:setupCharacters", function(result)
         SendNUIMessage({
             action = "setupCharacters",
             characters = result
