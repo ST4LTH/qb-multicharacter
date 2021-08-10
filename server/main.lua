@@ -81,7 +81,7 @@ QBCore.Functions.CreateCallback("qb-multicharacter:server:GetServerLogs", functi
     end)
 end)
 
-QBCore.Functions.CreateCallback("test:yeet", function(source, cb)
+QBCore.Functions.CreateCallback("qb-multicharacter:server:setupCharacters", function(source, cb)
     local license = QBCore.Functions.GetIdentifier(source, 'license')
     local plyChars = {}
     
