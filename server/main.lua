@@ -2,7 +2,7 @@ RegisterServerEvent('qb-multicharacter:server:disconnect')
 AddEventHandler('qb-multicharacter:server:disconnect', function()
     local src = source
 
-    DropPlayer(src, "You have disconnected from Qbus Roleplay")
+    DropPlayer(src, "You have disconnected from QBCore")
 end)
 
 RegisterServerEvent('qb-multicharacter:server:loadUserData')
