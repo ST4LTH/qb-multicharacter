@@ -97,12 +97,12 @@ QBCore.Functions.CreateCallback("qb-multicharacter:server:setupCharacters", func
     end)
 end)
 
-QBCore.Commands.Add("logout", "Logout of Character (Admin Only)", {{name="id", help="Player ID"},{name="item", help="Name of the item (not a label)"}, {name="amount", help="Amount of items"}}, false, function(source, args)
+QBCore.Commands.Add("logout", "Logout of Character (Admin Only)", {}, false, function(source, args)
     QBCore.Player.Logout(source)
     TriggerClientEvent('qb-multicharacter:client:chooseChar', source)
 end, "admin")
 
-QBCore.Commands.Add("closeNUI", "Close Multi NUI", {{name="id", help="Player ID"},{name="item", help="Name of the item (not a label)"}, {name="amount", help="Amount of items"}}, false, function(source, args)
+QBCore.Commands.Add("closeNUI", "Close Multi NUI", {}, false, function(source, args)
     TriggerClientEvent('qb-multicharacter:client:closeNUI', source)
 end)
 
