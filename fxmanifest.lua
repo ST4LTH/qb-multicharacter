@@ -14,8 +14,7 @@ files {
     'html/index.html',
     'html/style.css',
     'html/reset.css',
-    'html/script.js',
-    'html/qbus-logo.png'
+    'html/script.js'
 }
 
 dependencies {
