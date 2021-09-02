@@ -57,7 +57,7 @@ function GiveStarterItems(source)
             info.birthdate = Player.PlayerData.charinfo.birthdate
             info.type = "Class C Driver License"
         end
-        Player.Functions.AddItem(v.item, 1, false, info)
+        Player.Functions.AddItem(v.item, v.amount, false, info)
     end
 end
 
