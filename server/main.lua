@@ -70,7 +70,7 @@ end)
 QBCore.Functions.CreateCallback("qb-multicharacter:server:GetUserCharacters", function(source, cb)
     local license = QBCore.Functions.GetIdentifier(source, 'license')
 
-    exports.oxmysql:fetch('SELECT * FROM players WHERE license=@license', {['@license'] = license}, function(result)
+    exports.oxmysql:fetch('SELECT * FROM players WHERE license = ?', {license}, function(result)
         cb(result)
     end)
 end)
@@ -85,7 +85,7 @@ QBCore.Functions.CreateCallback("qb-multicharacter:server:setupCharacters", func
     local license = QBCore.Functions.GetIdentifier(source, 'license')
     local plyChars = {}
     
-    exports.oxmysql:fetch('SELECT * FROM players WHERE license = @license', {['@license'] = license}, function(result)
+    exports.oxmysql:fetch('SELECT * FROM players WHERE license = ?', {license}, function(result)
         for i = 1, (#result), 1 do
             result[i].charinfo = json.decode(result[i].charinfo)
             result[i].money = json.decode(result[i].money)
@@ -109,7 +109,7 @@ end)
 QBCore.Functions.CreateCallback("qb-multicharacter:server:getSkin", function(source, cb, cid)
     local src = source
 
-    local result = exports.oxmysql:fetchSync('SELECT * FROM playerskins WHERE citizenid=@citizenid AND active=@active', {['@citizenid'] = cid, ['@active'] = 1})
+    local result = exports.oxmysql:fetchSync('SELECT * FROM playerskins WHERE citizenid = ? AND active = ?', {cid, 1})
     if result[1] ~= nil then
         cb(result[1].model, result[1].skin)
     else
