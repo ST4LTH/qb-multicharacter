@@ -26,6 +26,8 @@ AddEventHandler('qb-multicharacter:server:createCharacter', function(data)
     local newData = {}
     newData.cid = data.cid
     newData.charinfo = data
+    local randbucket = (GetPlayerPed(src) .. math.random(1,999))
+    SetPlayerRoutingBucket(src, randbucket)
     --QBCore.Player.CreateCharacter(src, data)
     if QBCore.Player.Login(src, false, newData) then
         print('^2[qb-core]^7 '..GetPlayerName(src)..' has succesfully loaded!')
