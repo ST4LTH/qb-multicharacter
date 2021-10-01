@@ -1,4 +1,8 @@
+local cam = nil
 local charPed = nil
+local QBCore = exports['qb-core']:GetCoreObject()
+
+-- Main Thread
 
 Citizen.CreateThread(function()
 	while true do
@@ -10,26 +14,84 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Config = {
-    PedCoords = vector4(-813.97, 176.22, 76.74, -7.5), 
-    HiddenCoords = vector4(-812.23, 182.54, 76.74, 156.5), 
-    CamCoords = vector4(-814.02, 179.56, 76.74, 198.5), 
-}
+-- Functions
 
---- CODE
+local function skyCam(bool)
+    SetRainLevel(0.0)
+    TriggerEvent('qb-weathersync:client:DisableSync')
+    SetWeatherTypePersist('EXTRASUNNY')
+    SetWeatherTypeNow('EXTRASUNNY')
+    SetWeatherTypeNowPersist('EXTRASUNNY')
+    NetworkOverrideClockTime(12, 0, 0)
 
-local choosingCharacter = false
-local cam = nil
+    if bool then
+        DoScreenFadeIn(1000)
+        SetTimecycleModifier('hud_def_blur')
+        SetTimecycleModifierStrength(1.0)
+        FreezeEntityPosition(PlayerPedId(), false)
+        cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -813.46, 178.95, 76.85, 0.0 ,0.0, 174.5, 60.00, false, 0)
+        SetCamActive(cam, true)
+        RenderScriptCams(true, false, 1, true, true)
+    else
+        SetTimecycleModifier('default')
+        SetCamActive(cam, false)
+        DestroyCam(cam, true)
+        RenderScriptCams(false, false, 1, true, true)
+        FreezeEntityPosition(PlayerPedId(), false)
+    end
+end
 
-function openCharMenu(bool)
+local function openCharMenu(bool)
     SetNuiFocus(bool, bool)
     SendNUIMessage({
         action = "ui",
         toggle = bool,
     })
-    choosingCharacter = bool
     skyCam(bool)
 end
+
+-- Events
+
+RegisterNetEvent('qb-multicharacter:client:closeNUIdefault', function() -- This event is only for no starting apartments
+    SetNuiFocus(false, false)
+    DoScreenFadeOut(500)
+    Citizen.Wait(2000)
+    SetEntityCoords(PlayerPedId(), Config.DefaultSpawn.x, Config.DefaultSpawn.y, Config.DefaultSpawn.z)
+    TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
+    TriggerEvent('QBCore:Client:OnPlayerLoaded')
+    TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
+    TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)
+    Citizen.Wait(500)
+    openCharMenu()
+    SetEntityVisible(PlayerPedId(), true)
+    Citizen.Wait(500)
+    DoScreenFadeIn(250)
+    TriggerEvent('qb-weathersync:client:EnableSync')
+    TriggerEvent('qb-clothes:client:CreateFirstCharacter')
+end)
+
+RegisterNetEvent('qb-multicharacter:client:closeNUI', function()
+    SetNuiFocus(false, false)
+end)
+
+RegisterNetEvent('qb-multicharacter:client:chooseChar', function()
+    SetNuiFocus(false, false)
+    DoScreenFadeOut(10)
+    Citizen.Wait(1000)
+    local interior = GetInteriorAtCoords(Config.Interior.x, Config.Interior.y, Config.Interior.z - 18.9)
+    LoadInterior(interior)
+    while not IsInteriorReady(interior) do
+        Citizen.Wait(1000)
+    end
+    FreezeEntityPosition(PlayerPedId(), true)
+    SetEntityCoords(PlayerPedId(), Config.HiddenCoords.x, Config.HiddenCoords.y, Config.HiddenCoords.z)
+    Citizen.Wait(1500)
+    ShutdownLoadingScreen()
+    ShutdownLoadingScreenNui()
+    openCharMenu(true)
+end)
+
+-- NUI Callbacks
 
 RegisterNUICallback('closeUI', function()
     openCharMenu(false)
@@ -50,40 +112,10 @@ RegisterNUICallback('selectCharacter', function(data)
     DeleteEntity(charPed)
 end)
 
-RegisterNetEvent('qb-multicharacter:client:closeNUI')
-AddEventHandler('qb-multicharacter:client:closeNUI', function()
-    SetNuiFocus(false, false)
-end)
-
-local Countdown = 1
-
-RegisterNetEvent('qb-multicharacter:client:chooseChar')
-AddEventHandler('qb-multicharacter:client:chooseChar', function()
-    SetNuiFocus(false, false)
-    DoScreenFadeOut(10)
-    Citizen.Wait(1000)
-    local interior = GetInteriorAtCoords(-814.89, 181.95, 76.85 - 18.9)
-    LoadInterior(interior)
-    while not IsInteriorReady(interior) do
-        Citizen.Wait(1000)
-    end
-    FreezeEntityPosition(PlayerPedId(), true)
-    SetEntityCoords(PlayerPedId(), Config.HiddenCoords.x, Config.HiddenCoords.y, Config.HiddenCoords.z)
-    Citizen.Wait(1500)
-    ShutdownLoadingScreen()
-    ShutdownLoadingScreenNui()
-    openCharMenu(true)
-end)
-
-function selectChar()
-    openCharMenu(true)
-end
-
 RegisterNUICallback('cDataPed', function(data)
     local cData = data.cData  
     SetEntityAsMissionEntity(charPed, true, true)
     DeleteEntity(charPed)
-
     if cData ~= nil then
         QBCore.Functions.TriggerCallback('qb-multicharacter:server:getSkin', function(model, data)
             model = model ~= nil and tonumber(model) or false
@@ -164,7 +196,6 @@ RegisterNUICallback('createNewCharacter', function(data)
     elseif cData.gender == "Female" then
         cData.gender = 1
     end
-
     TriggerServerEvent('qb-multicharacter:server:createCharacter', cData)
     Citizen.Wait(500)
 end)
@@ -173,28 +204,3 @@ RegisterNUICallback('removeCharacter', function(data)
     TriggerServerEvent('qb-multicharacter:server:deleteCharacter', data.citizenid)
     TriggerEvent('qb-multicharacter:client:chooseChar')
 end)
-
-function skyCam(bool)
-    SetRainLevel(0.0)
-    TriggerEvent('qb-weathersync:client:DisableSync')
-    SetWeatherTypePersist('EXTRASUNNY')
-    SetWeatherTypeNow('EXTRASUNNY')
-    SetWeatherTypeNowPersist('EXTRASUNNY')
-    NetworkOverrideClockTime(12, 0, 0)
-
-    if bool then
-        DoScreenFadeIn(1000)
-        SetTimecycleModifier('hud_def_blur')
-        SetTimecycleModifierStrength(1.0)
-        FreezeEntityPosition(PlayerPedId(), false)
-        cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -813.46, 178.95, 76.85, 0.0 ,0.0, 174.5, 60.00, false, 0)
-        SetCamActive(cam, true)
-        RenderScriptCams(true, false, 1, true, true)
-    else
-        SetTimecycleModifier('default')
-        SetCamActive(cam, false)
-        DestroyCam(cam, true)
-        RenderScriptCams(false, false, 1, true, true)
-        FreezeEntityPosition(PlayerPedId(), false)
-    end
-end

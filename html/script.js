@@ -71,14 +71,6 @@ $(document).ready(function (){
 
 $('.continue-btn').click(function(e){
     e.preventDefault();
-
-    // qbMultiCharacters.fadeOutUp('.welcomescreen', undefined, 400);
-    // qbMultiCharacters.fadeOutDown('.server-log', undefined, 400);
-    // setTimeout(function(){
-    //     qbMultiCharacters.fadeInDown('.characters-list', '20%', 400);
-    //     qbMultiCharacters.fadeInDown('.character-info', '20%', 400);
-    //     $.post('https://qb-multicharacter/setupCharacters');
-    // }, 400)
 });
 
 $('.disconnect-btn').click(function(e){
@@ -228,22 +220,6 @@ $(document).on('click', '#create', function (e) {
         refreshCharacters()
     }
 });
-// $(document).on('click', '#create', function(e){
-//     e.preventDefault();
-//     $.post('https://qb-multicharacter/createNewCharacter', JSON.stringify({
-//         firstname: $('#first_name').val(),
-//         lastname: $('#last_name').val(),
-//         nationality: $('#nationality').val(),
-//         birthdate: $('#birthdate').val(),
-//         gender: $('select[name=gender]').val(),
-//         cid: $(selectedChar).attr('id').replace('char-', ''),
-//     }));
-//     $(".container").fadeOut(150);
-//     $('.characters-list').css("filter", "none");
-//     $('.character-info').css("filter", "none");
-//     qbMultiCharacters.fadeOutDown('.character-register', '125%', 400);
-//     refreshCharacters()
-// });
 
 $(document).on('click', '#accept-delete', function(e){
     $.post('https://qb-multicharacter/removeCharacter', JSON.stringify({
@@ -294,8 +270,6 @@ $(document).on('click', '#play', function(e) {
             $.post('https://qb-multicharacter/selectCharacter', JSON.stringify({
                 cData: $(selectedChar).data('cData')
             }));
-            // qbMultiCharacters.fadeInDown('.welcomescreen', WelcomePercentage, 400);
-            // qbMultiCharacters.fadeInDown('.server-log', '25%', 400);
             setTimeout(function(){
                 qbMultiCharacters.fadeOutDown('.characters-list', "-40%", 400);
                 qbMultiCharacters.fadeOutDown('.character-info', "-40%", 400);
@@ -348,7 +322,6 @@ qbMultiCharacters.resetAll = function() {
     $('.characters-list').css("top", "-40");
     $('.character-info').hide();
     $('.character-info').css("top", "-40");
-    // $('.welcomescreen').show();
     $('.welcomescreen').css("top", WelcomePercentage);
     $('.server-log').show();
     $('.server-log').css("top", "25%");
