@@ -19,11 +19,6 @@ end)
 local function skyCam(bool)
     SetRainLevel(0.0)
     TriggerEvent('qb-weathersync:client:DisableSync')
-    SetWeatherTypePersist('EXTRASUNNY')
-    SetWeatherTypeNow('EXTRASUNNY')
-    SetWeatherTypeNowPersist('EXTRASUNNY')
-    NetworkOverrideClockTime(12, 0, 0)
-
     if bool then
         DoScreenFadeIn(1000)
         SetTimecycleModifier('hud_def_blur')
