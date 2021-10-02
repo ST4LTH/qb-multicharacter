@@ -17,7 +17,6 @@ end)
 -- Functions
 
 local function skyCam(bool)
-    SetRainLevel(0.0)
     TriggerEvent('qb-weathersync:client:DisableSync')
     if bool then
         DoScreenFadeIn(1000)
