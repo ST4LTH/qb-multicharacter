@@ -23,7 +23,7 @@ local function skyCam(bool)
         SetTimecycleModifier('hud_def_blur')
         SetTimecycleModifierStrength(1.0)
         FreezeEntityPosition(PlayerPedId(), false)
-        cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", -813.46, 178.95, 76.85, 0.0 ,0.0, 174.5, 60.00, false, 0)
+        cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", Config.CamCoords.x, Config.CamCoords.y, Config.CamCoords.z, 0.0 ,0.0, Config.CamCoords.w, 60.00, false, 0)
         SetCamActive(cam, true)
         RenderScriptCams(true, false, 1, true, true)
     else
