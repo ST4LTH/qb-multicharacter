@@ -55,7 +55,7 @@
     width: 100%;
     height: 75px;
     margin-top: 15px;
-    font-family: 'Lato' monospace;
+    font-family: 'Poppins', sans-serif;
     border-bottom: 4px solid #74aa3200;
     transition: .1s linear;
     border-radius: .3vh;
