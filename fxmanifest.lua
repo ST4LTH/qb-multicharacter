@@ -21,3 +21,5 @@ dependencies {
     'qb-core',
     'qb-spawn'
 }
+
+lua54 'yes'
