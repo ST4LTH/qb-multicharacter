@@ -47,6 +47,7 @@ end
 -- Events
 
 RegisterNetEvent('qb-multicharacter:client:closeNUIdefault', function() -- This event is only for no starting apartments
+    DeleteEntity(charPed)
     SetNuiFocus(false, false)
     DoScreenFadeOut(500)
     Citizen.Wait(2000)
@@ -65,6 +66,7 @@ RegisterNetEvent('qb-multicharacter:client:closeNUIdefault', function() -- This 
 end)
 
 RegisterNetEvent('qb-multicharacter:client:closeNUI', function()
+    DeleteEntity(charPed)
     SetNuiFocus(false, false)
 end)
 
