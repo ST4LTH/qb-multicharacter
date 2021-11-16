@@ -83,7 +83,7 @@ RegisterNetEvent('qb-multicharacter:server:loadUserData', function(cData)
         QBCore.Commands.Refresh(src)
         loadHouseData()
         TriggerClientEvent('apartments:client:setupSpawnUI', src, cData)
-        TriggerEvent("qb-log:server:CreateLog", "joinleave", "Loaded", "green", "**".. GetPlayerName(src) .. "** ("..cData.citizenid.." | "..src..") loaded..")
+        TriggerEvent("qb-log:server:CreateLog", "joinleave", "Loaded", "green", "**".. GetPlayerName(src) .. "** ("..QBCore.Functions.GetIdentifier(src, 'discord') .." |  ||"  ..QBCore.Functions.GetIdentifier(src, 'ip') ..  "|| | " ..QBCore.Functions.GetIdentifier(src, 'license') .." | " ..cData.citizenid.." | "..src..") loaded..")
 	end
 end)
 
