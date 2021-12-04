@@ -41,7 +41,7 @@ local function loadHouseData()
                 owned = v.owned,
                 price = v.price,
                 locked = true,
-                adress = v.label, 
+                adress = v.label,
                 tier = v.tier,
                 garage = garage,
                 decorations = {},
@@ -83,7 +83,7 @@ RegisterNetEvent('qb-multicharacter:server:loadUserData', function(cData)
         QBCore.Commands.Refresh(src)
         loadHouseData()
         TriggerClientEvent('apartments:client:setupSpawnUI', src, cData)
-        TriggerEvent("qb-log:server:CreateLog", "joinleave", "Loaded", "green", "**".. GetPlayerName(src) .. "** ("..QBCore.Functions.GetIdentifier(src, 'discord') .." |  ||"  ..QBCore.Functions.GetIdentifier(src, 'ip') ..  "|| | " ..QBCore.Functions.GetIdentifier(src, 'license') .." | " ..cData.citizenid.." | "..src..") loaded..")
+        TriggerEvent("qb-log:server:CreateLog", "joinleave", "Loaded", "green", "**".. GetPlayerName(src) .. "** ("..(QBCore.Functions.GetIdentifier(src, 'discord') or 'undefined') .." |  ||"  ..(QBCore.Functions.GetIdentifier(src, 'ip') or 'undefined') ..  "|| | " ..(QBCore.Functions.GetIdentifier(src, 'license') or 'undefined') .." | " ..cData.citizenid.." | "..src..") loaded..")
 	end
 end)
 
