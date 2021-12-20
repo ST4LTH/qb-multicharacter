@@ -38,7 +38,7 @@ $(document).ready(function (){
                         loadingDots = 0;
                     }
                 }, 500);
-            
+
                 setTimeout(function(){
                     $.post('https://qb-multicharacter/setupCharacters');
                     setTimeout(function(){
@@ -192,33 +192,40 @@ function hasWhiteSpace(s) {
   }
 $(document).on('click', '#create', function (e) {
     e.preventDefault();
-   
-        let firstname= escapeHtml($('#first_name').val())
-        let lastname= escapeHtml($('#last_name').val())
-        let nationality= escapeHtml($('#nationality').val())
-        let birthdate= escapeHtml($('#birthdate').val())
-        let gender= escapeHtml($('select[name=gender]').val())
-        let cid = escapeHtml($(selectedChar).attr('id').replace('char-', ''))
-        
+
+    let firstname= escapeHtml($('#first_name').val())
+    let lastname= escapeHtml($('#last_name').val())
+    let nationality= escapeHtml($('#nationality').val())
+    let birthdate= escapeHtml($('#birthdate').val())
+    let gender= escapeHtml($('select[name=gender]').val())
+    let cid = escapeHtml($(selectedChar).attr('id').replace('char-', ''))
+    const regTest = new RegExp(profList.join('|'), 'i');
     //An Ugly check of null objects
 
     if (!firstname || !lastname || !nationality || !birthdate || hasWhiteSpace(firstname) || hasWhiteSpace(lastname)|| hasWhiteSpace(nationality) ){
-    console.log("FIELDS REQUIRED")
-    }else{
-        $.post('https://qb-multicharacter/createNewCharacter', JSON.stringify({
-            firstname: firstname,
-            lastname: lastname,
-            nationality: nationality,
-            birthdate: birthdate,
-            gender: gender,
-            cid: cid,
-        }));
-        $(".container").fadeOut(150);
-        $('.characters-list').css("filter", "none");
-        $('.character-info').css("filter", "none");
-        qbMultiCharacters.fadeOutDown('.character-register', '125%', 400);
-        refreshCharacters()
+        console.log("FIELDS REQUIRED")
+        return false;
     }
+
+    if(regTest.test(firstname) || regTest.test(lastname)){
+        console.log("ERROR: You used a derogatory/vulgar term. Please try again!")
+        return false;
+    }
+
+    $.post('https://qb-multicharacter/createNewCharacter', JSON.stringify({
+        firstname: firstname,
+        lastname: lastname,
+        nationality: nationality,
+        birthdate: birthdate,
+        gender: gender,
+        cid: cid,
+    }));
+    $(".container").fadeOut(150);
+    $('.characters-list').css("filter", "none");
+    $('.character-info').css("filter", "none");
+    qbMultiCharacters.fadeOutDown('.character-register', '125%', 400);
+    refreshCharacters()
+
 });
 
 $(document).on('click', '#accept-delete', function(e){

@@ -14,6 +14,7 @@ files {
     'html/index.html',
     'html/style.css',
     'html/reset.css',
+    'html/profanity.js',
     'html/script.js'
 }
 
