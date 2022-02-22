@@ -36,12 +36,15 @@ local function skyCam(bool)
 end
 
 local function openCharMenu(bool)
-    SetNuiFocus(bool, bool)
-    SendNUIMessage({
-        action = "ui",
-        toggle = bool,
-    })
-    skyCam(bool)
+    QBCore.Functions.TriggerCallback("qb-multicharacter:server:GetNumberOfCharacters", function(result)
+        SetNuiFocus(bool, bool)
+        SendNUIMessage({
+            action = "ui",
+            toggle = bool,
+            nChar = result,
+        })
+        skyCam(bool)
+    end)
 end
 
 -- Events

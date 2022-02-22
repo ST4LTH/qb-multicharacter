@@ -2,12 +2,14 @@ var selectedChar = null;
 var WelcomePercentage = "30vh"
 qbMultiCharacters = {}
 var Loaded = false;
+var NChar = null;
 
 $(document).ready(function (){
     window.addEventListener('message', function (event) {
         var data = event.data;
 
         if (data.action == "ui") {
+			NChar = data.nChar;
             if (data.toggle) {
                 $('.container').show();
                 $(".welcomescreen").fadeIn(150);
@@ -40,6 +42,7 @@ $(document).ready(function (){
                 }, 500);
 
                 setTimeout(function(){
+					setCharactersList()
                     $.post('https://qb-multicharacter/setupCharacters');
                     setTimeout(function(){
                         clearInterval(DotsInterval);
@@ -243,8 +246,24 @@ $(document).on('click', '#cancel-delete', function(e){
     $('.character-delete').fadeOut(150);
 });
 
+function setCharactersList() {
+    var htmlResult = '<div class="character-list-header"><p>My Characters</p></div>'
+    for (let i = 1; i <= NChar; i++) {
+        htmlResult += '<div class="character" id="char-'+ i +'" data-cid=""><span id="slot-name">Empty Slot<span id="cid"></span></span></div>'
+    }
+    htmlResult += '<div class="character-btn" id="play"><p id="play-text">Select a character</p></div><div class="character-btn" id="delete"><p id="delete-text">Select a character</p></div>'
+    $('.characters-list').html(htmlResult)
+}
+
 function refreshCharacters() {
-    $('.characters-list').html('<div class="character" id="char-1" data-cid=""><span id="slot-name">Empty Slot<span id="cid"></span></span></div><div class="character" id="char-2" data-cid=""><span id="slot-name">Empty Slot<span id="cid"></span></span></div><div class="character" id="char-3" data-cid=""><span id="slot-name">Empty Slot<span id="cid"></span></span></div><div class="character" id="char-4" data-cid=""><span id="slot-name">Empty Slot<span id="cid"></span></span></div><div class="character" id="char-5" data-cid=""><span id="slot-name">Empty Slot<span id="cid"></span></span></div><div class="character-btn" id="play"><p id="play-text">Select a character</p></div><div class="character-btn" id="delete"><p id="delete-text">Select a character</p></div>')
+    var htmlResult = ''
+    for (let i = 1; i <= NChar; i++) {
+        htmlResult += '<div class="character" id="char-'+ i +'" data-cid=""><span id="slot-name">Empty Slot<span id="cid"></span></span></div>'
+    }
+
+    htmlResult += '<div class="character-btn" id="play"><p id="play-text">Select a character</p></div><div class="character-btn" id="delete"><p id="delete-text">Select a character</p></div>'
+    $('.characters-list').html(htmlResult)
+    
     setTimeout(function(){
         $(selectedChar).removeClass("char-selected");
         selectedChar = null;
