@@ -1,12 +1,12 @@
 Config = {}
 Config.StartingApartment = true -- Enable/disable starting apartments (make sure to set default spawn coords)
-Config.Interior = vector3(-814.89, 181.95, 76.85) -- Interior to load where characters are previewed
-Config.DefaultSpawn = vector3(-1035.71, -2731.87, 12.86) -- Default spawn coords if you have start apartments disabled
-Config.PedCoords = vector4(-813.97, 176.22, 76.74, -7.5) -- Create preview ped at these coordinates
-Config.HiddenCoords = vector4(-812.23, 182.54, 76.74, 156.5) -- Hides your actual ped while you are in selection
-Config.CamCoords = vector4(-813.46, 178.95, 76.85, 174.5) -- Camera coordinates for character preview screen
+Config.Interior = vector3(-191.09, -578.79, 136.0) -- Interior to load where characters are previewed
+Config.DefaultSpawn = vector3(-191.09, -578.79, 136.0) -- Default spawn coords if you have start apartments disabled
+Config.PedCoords = vector4(-191.6079, -571.6968, 136.0004, 190.2479) -- Create preview ped at these coordinates
+Config.HiddenCoords = vector4(-191.1, -578.75, 136.0, 357.97) -- Hides your actual ped while you are in selection
+Config.CamCoords = vector4(-191.3678, -573.7756, 136.5, 6.5211) -- Camera coordinates for character preview screen
 
-Config.DefaultNumberOfCharacters = 1 -- Define maximum amount of default characters (maximum 5 characters defined by default)
+Config.DefaultNumberOfCharacters = 5 -- Define maximum amount of default characters (maximum 5 characters defined by default)
 Config.PlayersNumberOfCharacters = { -- Define maximum amount of player characters by rockstar license (you can find this license in your server's database in the player table)
     { license = "license:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", numberOfChars = 2 },
 }

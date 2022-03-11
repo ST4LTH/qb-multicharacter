@@ -15,7 +15,7 @@
     text-align: center;
     color: #ededed;
     line-height: 24px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .characters-list {
@@ -26,9 +26,9 @@
     left: 14%;
     top: -40%;
     overflow: visible !important;
-    background-color: rgb(23 23 23 / 80%);
-    border-radius: .8vh;
-    padding: 30px;
+    background-color: #36425B;
+    border-radius: 0;
+    padding: 20px;
 }
 
 .character-list-header {
@@ -44,7 +44,7 @@
     text-align: center;
     font-size: 2vh;
     margin-top: 3.1vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     letter-spacing: .1vh;
     font-weight: 900;
     color: #ededed;
@@ -55,7 +55,7 @@
     width: 100%;
     height: 75px;
     margin-top: 15px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     border-bottom: 4px solid #74aa3200;
     transition: .1s linear;
     border-radius: .3vh;
@@ -67,7 +67,7 @@
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: .1vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 #cid {
@@ -80,7 +80,7 @@
 }
 
 .char-selected {
-    background-color: #dc143c;
+    background-color: #4f6187;
 }
 
 .disabled {
@@ -93,7 +93,7 @@
     font-size: 17px;
     line-height: 80px;
     left: 20px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .character-btn {
@@ -112,7 +112,7 @@
     color: #ededed;
     letter-spacing: .1vh;
     text-align: center;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 2vh;
     text-transform: uppercase;
     line-height: 5vh;
@@ -121,24 +121,24 @@
 
 #play {
     display: none;
-    background-color: #28a745;
+    background-color: #00BF8F;
     border-radius: .3vh;
     transition: all 0.2s ease;
 }
 
 #play:hover {
-    background-color: #228a3a;
+    background-color: #00FFBE;
 }
 
 #delete {
     display: none;
-    background-color: #dc143c;
+    background-color: #3A4868;
     border-radius: .3vh;
     transition: all 0.2s ease;
 }
 
 #delete:hover {
-    background-color: #eb3434;
+    background-color: #2d3852;
 }
 
 .character-info {
@@ -148,9 +148,9 @@
     height: 40%;
     right: 14%;
     top: -40%;
-    border-radius: .8vh;
-    padding: 30px;
-    background-color: rgb(23 23 23 / 80%);
+    border-radius: 0;
+    padding: 20px;
+    background-color: #36425B;
     overflow: visible !important;
 }
 
@@ -226,11 +226,11 @@
     margin-right: auto;
     background-color: rgb(23 23 23 / 80%);
     border-radius: .8vh;
-    padding: 30px;
-    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     color: #ededed;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     overflow: visible !important;
 }
 
@@ -242,14 +242,14 @@
     text-align: left;
     font-size: 2vh;
     line-height: 29px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 900;
     text-transform: uppercase;
     overflow: visible !important;
 }
 
 .characters-delete-block-header>p {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     overflow: visible !important;
 }
 
@@ -295,7 +295,7 @@
     color: #ededed;
     text-align: center;
     padding-top: 1vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     overflow: visible !important;
     font-weight: 900;
     text-transform: uppercase;
@@ -305,7 +305,7 @@
     color: #ededed;
     text-align: center;
     padding-top: 1vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     overflow: visible !important;
     font-weight: 900;
     text-transform: uppercase;
@@ -314,16 +314,16 @@
 .character-register {
     display: none;
     position: relative;
-    width: 25%;
-    height: 32%;
+    width: 20.2%;
+    height: 40%;
     top: 125%;
     margin-left: auto;
     margin-right: auto;
-    left: 32px;
-    background-color: rgb(23 23 23 / 80%);
-    border-radius: .8vh;
-    padding: 30px;
-    font-family: 'Poppins', sans-serif;
+    left: 480px;
+    background-color: #4f6187;
+    border-radius: 0vh;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -334,12 +334,10 @@ i#close-reg {
 }
 
 .material-icons-one {
-    margin-left: 39.5vh;
+    margin-left: 34.5vh;
     color: #ededed;
-    background-color: #dc143c;
-    font-size: 1.3vh;
+    font-size: 1.3h;
     font-weight: 900;
-    border-radius: .3vh;
     padding: .3vh;
 }
 
@@ -365,7 +363,7 @@ i#close-reg {
     float: left;
     margin-top: 1vh;
     border: none;
-    background-color: #444444;
+    background-color: #3a4868;
     outline: none;
     width: 92%;
     height: 3vh;
@@ -374,7 +372,7 @@ i#close-reg {
     font-weight: 900;
     padding: 4px;
     border-radius: .3vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
     transition: all 0.2s ease-in-out;
     cursor: text;
@@ -383,8 +381,8 @@ i#close-reg {
 select {
     position: absolute;
     border: none;
-    border: .3vh solid #444444;
-    background-color: #171717;
+    border: .3vh solid #3A4868;
+    background-color: #3A4868;
     outline: none;
     width: 93.5%;
     height: 4vh;
@@ -394,7 +392,7 @@ select {
     max-width: 100%;
     padding: 4px;
     border-radius: .3vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-align-last: center;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -405,11 +403,11 @@ select {
 }
 
 select:hover {
-    background-color: rgba(34, 34, 34, 0.808);
+    background-color: #3A4868;
 }
 
 select:focus {
-    background-color: rgba(34, 34, 34, 0.808);
+    background-color: #2d3852;
 }
 
 #gender option {
@@ -456,14 +454,14 @@ input[type="date"]::-webkit-clear-button {
 #birthdate {
     color: #ededed;
     text-align: center;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .character-reg-btn {
     position: absolute;
     max-width: 87%;
     height: 4vh;
-    background-color: #dc143c;
+    background-color: #00FFBE;
     border-radius: .3vh;
     bottom: 3vh;
     margin: 0 auto;
@@ -477,7 +475,7 @@ input[type="date"]::-webkit-clear-button {
     line-height: 4vh;
     color: #ededed;
     text-transform: uppercase;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 2vh;
     font-weight: 900;
 }
@@ -498,7 +496,7 @@ input[type="date"]::-webkit-clear-button {
 .loading-rondje > p {
     color: white;
     margin-top: 1vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-shadow: 1px 1px 0px #00000085;
 }
 
