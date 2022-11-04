@@ -31,7 +31,6 @@ Added support for setting default number of characters per player per Rockstar l
 
 Can also be used with my other reskins
 - [qb-clothing](https://github.com/ST4LTH/qb-clothing)
-- [qb-spawn](https://github.com/ST4LTH/qb-spawn)
 
 ## Screenshots
 ![Character Selection](https://i.imgur.com/jPxFucu.jpeg)
