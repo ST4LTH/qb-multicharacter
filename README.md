@@ -26,8 +26,11 @@ Added support for setting default number of characters per player per Rockstar l
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-spawn](https://github.com/qbcore-framework/qb-spawn) - Spawn selector
 - [qb-apartments](https://github.com/qbcore-framework/qb-apartments) - For giving the player a apartment after creating a character.
-- [qb-clothing](https://github.com/qbcore-framework/qb-clothing) - For the character creation and saving outfits.
+- [qb-clothing](https://github.com/qbcore-framework/qb-clothing) - For the character creation and saving outfits. 
 - [qb-weathersync](https://github.com/qbcore-framework/qb-weathersync) - For adjusting the weather while player is creating a character.
+
+Can also be used with my other reskins
+- [qb-clothing](https://github.com/ST4LTH/qb-clothing)
 
 ## Screenshots
 ![Character Selection](https://i.imgur.com/jPxFucu.jpeg)
