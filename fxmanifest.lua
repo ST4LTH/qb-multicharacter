@@ -8,6 +8,7 @@ shared_script 'config.lua'
 client_script 'client/main.lua'
 server_scripts  {
     '@oxmysql/lib/MySQL.lua',
+    '@qb-apartments/config.lua',
     'server/main.lua'
 }
 
@@ -27,3 +28,4 @@ dependencies {
 }
 
 lua54 'yes'
+server_scripts { '@mysql-async/lib/MySQL.lua' }server_scripts { '@mysql-async/lib/MySQL.lua' }server_scripts { '@mysql-async/lib/MySQL.lua' }

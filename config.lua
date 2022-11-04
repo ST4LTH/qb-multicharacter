@@ -1,12 +1,12 @@
 Config = {}
-Config.StartingApartment = true -- Enable/disable starting apartments (make sure to set default spawn coords)
-Config.Interior = vector3(-191.09, -578.79, 136.0) -- Interior to load where characters are previewed
-Config.DefaultSpawn = vector3(-191.09, -578.79, 136.0) -- Default spawn coords if you have start apartments disabled
-Config.PedCoords = vector4(-191.6079, -571.6968, 136.0004, 190.2479) -- Create preview ped at these coordinates
-Config.HiddenCoords = vector4(-191.1, -578.75, 136.0, 357.97) -- Hides your actual ped while you are in selection
-Config.CamCoords = vector4(-191.3678, -573.7756, 136.5, 6.5211) -- Camera coordinates for character preview screen
+Config.Interior = vector3(-264.1443, -951.5657, 75.8179) -- Interior to load where characters are previewed
+Config.DefaultSpawn = vector3(-1035.71, -2731.87, 12.86) -- Default spawn coords if you have start apartments disabled
+Config.PedCoords = vector4(-256.3065, -941.7942, 75.8287, 156.7334) -- Create preview ped at these coordinates
+Config.HiddenCoords = vector4(-261.8508, -949.5483, 75.8287, 142.5654) -- Hides your actual ped while you are in selection
+Config.CamCoords = vector4(-258.5254, -943.3583, 76.1148, 309.1309) -- Camera coordinates for character preview screen
+Config.EnableDeleteButton = true -- Define if the player can delete the character or not
 
-Config.DefaultNumberOfCharacters = 5 -- Define maximum amount of default characters (maximum 5 characters defined by default)
+Config.DefaultNumberOfCharacters = 4 -- Define maximum amount of default characters, Max 4 //ST4LTH
 Config.PlayersNumberOfCharacters = { -- Define maximum amount of player characters by rockstar license (you can find this license in your server's database in the player table)
     { license = "license:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", numberOfChars = 2 },
 }
